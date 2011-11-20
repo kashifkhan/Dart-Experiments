@@ -83,5 +83,3 @@ class Point{
 main(){
   new Cubes();
 }
-
-
