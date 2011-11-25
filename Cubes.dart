@@ -6,6 +6,10 @@ class Cubes {
   var hfov = 100 * Math.PI / 180;
   var vfov = 80 * Math.PI / 180;
   List<Point> vertices;
+  
+  var Xangle = 0;
+  var Yangle = 0;
+  var Zangle = 0;
 
   Cubes() {
     
@@ -26,6 +30,75 @@ class Cubes {
     
     
     drawCube(vertices);
+       
+    window.document.onkeydown = (KeyboardEvent e){
+      
+      
+      if(e.keyCode == 37){
+        
+        
+        Xangle = Xangle + 0.005;
+        
+        
+        for(var i = 0; i < vertices.length; i++){
+          
+//          vertices[i].rotateX(Xangle);
+//          vertices[i].rotateY(Yangle);
+//          vertices[i].rotateZ(Zangle);
+          
+            vertices[i] = vertices[i].rotateX(Xangle);
+            vertices[i] = vertices[i].rotateY(Yangle);
+            vertices[i] = vertices[i].rotateZ(Zangle);
+          
+        }
+        
+        drawCube(vertices);
+        
+      }else if(e.keyCode == 38){
+        
+         Yangle = Yangle + 0.005;
+        
+        for(var i = 0; i < vertices.length; i++){
+          
+          vertices[i] = vertices[i].rotateX(Xangle);
+          vertices[i] = vertices[i].rotateY(Yangle);
+          vertices[i] = vertices[i].rotateZ(Zangle);
+          
+        }
+        
+        drawCube(vertices);
+        
+      }else if(e.keyCode == 39){
+        Xangle = Xangle -  0.005;
+        
+        
+        for(var i = 0; i < vertices.length; i++){
+          
+          vertices[i] = vertices[i].rotateX(Xangle);
+          vertices[i] = vertices[i].rotateY(Yangle);
+          vertices[i] = vertices[i].rotateZ(Zangle);
+          
+        }
+        
+        
+        drawCube(vertices);
+        
+      }else if(e.keyCode == 40){
+        
+        Yangle = Yangle + 0.005;
+        
+        for(var i = 0; i < vertices.length; i++){
+          
+          vertices[i] = vertices[i].rotateX(Xangle);
+          vertices[i] = vertices[i].rotateY(Yangle);
+          vertices[i] = vertices[i].rotateZ(Zangle);
+          
+        }
+        
+        drawCube(vertices);
+      }
+      
+    };
     
     
     
@@ -34,6 +107,8 @@ class Cubes {
   drawCube(List<Point> vertices){
     var hViewDistance = ( 300 / 2 ) / Math.tan( hfov / 2 );
     var vViewDistance = ( 300 / 2 ) / Math.tan( vfov / 2 );
+    
+    ctx.clearRect(0,0,300,300);
     
     
     ctx.setFillColor("black");
@@ -78,6 +153,34 @@ class Point{
    var x,y,z;
    projectedX(hViewDistance) => (this.x * hViewDistance) / this.z  + 300/2 ;
    projectedY(vViewDistance) => (300/2) -  ( this.y * vViewDistance ) / this.z;
+   
+   rotateX(angle){
+     //this.y = this.y * Math.cos(angle*Math.PI/180) - this.z * Math.sin(angle*Math.PI/180);
+     //this.z = this.y * Math.sin(angle*Math.PI/180) + this.z + Math.cos(angle*Math.PI/180);
+     var newy = this.y * Math.cos(angle) - this.z * Math.sin(angle);
+     var newz = this.y * Math.sin(angle) + this.z + Math.cos(angle);
+     
+     return new Point(this.x, newy, newz);
+     
+   }
+   
+   rotateZ(angle){
+     //this.x = this.x * Math.cos(angle*Math.PI/180) - this.y * Math.sin(angle*Math.PI/180);
+     //this.y = this.x * Math.sin(angle*Math.PI/180) + this.y * Math.cos(angle*Math.PI/180);
+     var newx = this.x * Math.cos(angle) - this.y * Math.sin(angle);
+     var newy = this.x * Math.sin(angle) + this.y * Math.cos(angle);
+     
+     return new Point(newx,newy,this.z);
+   }
+   
+   rotateY(angle){
+     //this.x = this.x * Math.cos(angle*Math.PI/180) - this.z * Math.sin(angle*Math.PI/180);
+     //this.z = this.x * Math.sin(angle*Math.PI/180) + this.z * Math.cos(angle*Math.PI/180);
+     var newx = this.x * Math.cos(angle) - this.z * Math.sin(angle);
+     var newz = this.x * Math.sin(angle) + this.z * Math.cos(angle);
+     
+     return new Point(newx,this.y, newz);
+   }
 }
 
 main(){
